@@ -7,11 +7,17 @@ import clubs from "./images/clubs.png";
 import spades from "./images/spades.png";
 import React, { useState } from "react";
 
-function Card({ className, onClick}) {
+function Card({ className, onClick }) {
   return <div className={`card ${className}`} onClick={onClick}></div>;
 }
 
-function DeckCard({ cardNumber, cardName, cardSuit }) {
+function DeckCard({
+  cardNumber,
+  cardName,
+  cardSuit,
+  selectedCard,
+  setSelectedCard,
+}) {
   let suitImage;
 
   switch (cardSuit) {
@@ -32,14 +38,28 @@ function DeckCard({ cardNumber, cardName, cardSuit }) {
   }
 
   return (
-    <div className={`deck-card deck-card-${cardNumber}`}>
+    <div
+      className={`deck-card deck-card-${cardNumber} ${
+        selectedCard.type === "deck" && selectedCard.cardNumber === cardNumber
+          ? "selected-card"
+          : ""
+      }`}
+      onClick={() =>
+        setSelectedCard({
+          type: "deck",
+          cardNumber: cardNumber,
+          cardName: cardName,
+          cardSuit: cardSuit,
+        })
+      }
+    >
       <span style={{ paddingLeft: "4px" }}>{cardName}</span>
       <img src={suitImage} alt="suit" className="suit-image" />
     </div>
   );
 }
 
-function Deck() {
+function Deck({ selectedCard, setSelectedCard }) {
   const cardSuits = ["spade", "heart", "club", "diamond"];
   const cardRanks = [
     "A",
@@ -69,6 +89,8 @@ function Deck() {
               cardNumber={totalCardIndex + 1}
               cardName={`${cardRanks[cardIndex]}`}
               cardSuit={suit}
+              selectedCard={selectedCard}
+              setSelectedCard={setSelectedCard}
             />
           );
         })}
@@ -79,7 +101,14 @@ function Deck() {
   return <div className="deck">{deckGroups}</div>;
 }
 
-function Player({ playerNumber, numCards, numPlayers, isActive, setIsActive, selectedCard, setSelectedCard }) {
+function Player({
+  playerNumber,
+  numCards,
+  numPlayers,
+  selectedCard,
+  setSelectedCard,
+}) {
+  const [isActive, setIsActive] = useState(playerNumber <= 2);
   const cards = new Array(numCards).fill(null);
   const cardOpacity = isActive ? 1 : 0.5;
   const addPlayerButton = isActive ? "-" : "+";
@@ -114,8 +143,22 @@ function Player({ playerNumber, numCards, numPlayers, isActive, setIsActive, sel
         {cards.map((_, index) => (
           <Card
             key={index}
-            className={`${activeCardClass} ${selectedCard === index ? "selected-card" : ""}`}
-            onClick={() => setSelectedCard(index)}
+            className={`${activeCardClass} ${
+              selectedCard.type === "player" &&
+              selectedCard.playerIndex === playerNumber - 1 &&
+              selectedCard.cardIndex === index
+                ? "selected-card"
+                : ""
+            }`}
+            onClick={() => {
+              if (isActive) {
+                setSelectedCard({
+                  type: "player",
+                  playerIndex: playerNumber - 1,
+                  cardIndex: index,
+                });
+              }
+            }}
           />
         ))}
       </div>
@@ -123,47 +166,67 @@ function Player({ playerNumber, numCards, numPlayers, isActive, setIsActive, sel
   );
 }
 
-function PokerGame({ numCards, numPlayers }) {
-  const [activePlayers, setActivePlayers] = useState(
-    new Array(numPlayers).fill(false)
+function CommunityCard({ index, selectedCard, setSelectedCard }) {
+  return (
+    <div
+      className={`community-card ${
+        selectedCard.type === "community" && selectedCard.index === index
+          ? "selected-card"
+          : ""
+      }`}
+      onClick={() => setSelectedCard({ type: "community", index: index })}
+    />
   );
-  const [selectedCard, setSelectedCard] = useState({ playerIndex: null, cardIndex: null });
+}
 
-  activePlayers[0] = true;
-  activePlayers[1] = true;
+function PokerGame({ numCards, numPlayers }) {
+  const [selectedCard, setSelectedCard] = useState({
+    type: null,
+    playerIndex: null,
+    cardIndex: null,
+  });
 
   const communityCards = [
     <div key={0} className="community-cards-group">
       {new Array(3).fill(null).map((_, index) => (
-        <div key={index} className="community-card" />
+        <CommunityCard
+          key={index}
+          index={index}
+          selectedCard={selectedCard}
+          setSelectedCard={setSelectedCard}
+        />
       ))}
     </div>,
     <div key={1} className="community-cards-group">
-      <div className="community-card" />
+      <CommunityCard
+        key={1}
+        index={3}
+        selectedCard={selectedCard}
+        setSelectedCard={setSelectedCard}
+      />
     </div>,
     <div key={2} className="community-cards-group">
-      <div className="community-card" />
+      <CommunityCard
+        key={2}
+        index={4}
+        selectedCard={selectedCard}
+        setSelectedCard={setSelectedCard}
+      />
     </div>,
   ];
 
-  const players = new Array(numPlayers).fill(null).map((_, index) => (
-    <Player
-      key={index}
-      playerNumber={index + 1}
-      numCards={numCards}
-      numPlayers={numPlayers}
-      isActive={activePlayers[index]}
-      setIsActive={(newIsActive) => {
-        console.log(`Player ${index + 1} Active:`, newIsActive);
-        const newActivePlayers = [...activePlayers];
-        newActivePlayers[index] = newIsActive;
-        console.log("Active Players:", newActivePlayers);
-        setActivePlayers(newActivePlayers);
-      }}
-      selectedCard={selectedCard.playerIndex === index ? selectedCard.cardIndex : null}
-      setSelectedCard={(cardIndex) => setSelectedCard({ playerIndex: index, cardIndex })}
-    />
-  ));
+  const players = new Array(numPlayers)
+    .fill(null)
+    .map((_, index) => (
+      <Player
+        key={index}
+        playerNumber={index + 1}
+        numCards={numCards}
+        numPlayers={numPlayers}
+        selectedCard={selectedCard}
+        setSelectedCard={setSelectedCard}
+      />
+    ));
 
   return (
     <div className="App">
@@ -175,7 +238,7 @@ function PokerGame({ numCards, numPlayers }) {
             <div className="community-cards-group">{communityCards}</div>
           </div>
         </div>
-        <Deck />
+        <Deck selectedCard={selectedCard} setSelectedCard={setSelectedCard} />
       </div>
     </div>
   );

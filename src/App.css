@@ -30,12 +30,13 @@
 }
 
 .card {
-  background-color: #D3D3D3;
-  border: 2px solid black;
+  background-color: #a9a9a9;
+  border: 2px solid transparent;
   border-radius: 5px;
   height: 50px;
   margin: 3px;
   width: 35px;
+  transition: box-shadow 0.2s ease;
 }
 
 .cards {
@@ -46,18 +47,13 @@
   box-shadow: 0 0 10px 4px #c28502;
 }
 
-.selected-card {
-  box-shadow: 0 0 10px 4px #c28502;
-  background-color: white;
-}
-
 .community-card {
-  background-color: #D3D3D3;
-  border: 2px solid black;
+  background-color: #a9a9a9;
   border-radius: 5px;
   height: 80px;
   margin: 5px;
   width: 55px;
+  transition: box-shadow 0.2s ease;
 }
 
 .community-cards {
@@ -73,6 +69,15 @@
   display: flex;
   justify-content: space-between;
   margin: 0 15px;
+}
+
+.community-card:hover {
+  box-shadow: 0 0 10px 4px #c28502;
+}
+
+.selected-card {
+  box-shadow: 0 0 10px 4px #c28502;
+  background-color: white;
 }
 
 .deck {
@@ -173,33 +178,40 @@
   height: 25px;
   margin-top: 15px;
   margin-left: 8px;
-  font-weight: bold
+  font-weight: bold;
+  font-size: 15px;
 }
 
 .player-6:nth-child(1) {
-  transform: translate(-30%, 220%) translate(400px);
+  transform: translate(120%, 220%) translate(400px);
+  width: 100px;
 }
 .player-6:nth-child(2) {
-  transform: translate(-70%, 120%) translate(400px);
+  transform: translate(-200%, 120%) translate(400px);
+  width: 100px;
 }
 .player-6:nth-child(3) {
   transform: translate(-100%, -140%) translate(400px);
 }
 .player-6:nth-child(4) {
-  transform: translate(-70%, -380%) translate(400px);
+  transform: translate(-150%, -380%) translate(400px);
+  width: 150px;
 }
 .player-6:nth-child(5) {
-  transform: translate(-30%, -480%) translate(400px);
+  transform: translate(60%, -480%) translate(400px);
+  width: 150px;
 }
 .player-6:nth-child(6) {
   transform: translate(0%, -440%) translate(400px);
 }
 
 .player-8:nth-child(1) {
-  transform: translate(-35%, 220%) translate(400px);
+  transform: translate(80%, 220%) translate(400px);
+  width: 100px;
 }
 .player-8:nth-child(2) {
-  transform: translate(-65%, 120%) translate(400px);
+  transform: translate(-170%, 120%) translate(400px);
+  width: 100px;
 }
 .player-8:nth-child(3) {
   transform: translate(-100%, -60%) translate(400px);
@@ -208,10 +220,12 @@
   transform: translate(-100%, -305%) translate(400px);
 }
 .player-8:nth-child(5) {
-  transform: translate(-65%, -480%) translate(400px);
+  transform: translate(-130%, -485%) translate(400px);
+  width: 150px;
 }
 .player-8:nth-child(6) {
-  transform: translate(-35%, -580%) translate(400px);
+  transform: translate(35%, -585%) translate(400px);
+  width: 150px;
 }
 .player-8:nth-child(7) {
   transform: translate(-2%, -595%) translate(400px);

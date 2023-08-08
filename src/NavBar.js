@@ -33,7 +33,9 @@ function NavBar() {
           setActiveTab("five-card-omaha");
           navigate("/five-card-omaha");
         }}
-        className={`nav-link ${activeTab === "five-card-omaha" ? "active-link" : ""}`}
+        className={`nav-link ${
+          activeTab === "five-card-omaha" ? "active-link" : ""
+        }`}
       >
         Five Card Omaha
       </div>
