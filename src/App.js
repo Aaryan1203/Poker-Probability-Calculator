@@ -7,8 +7,41 @@ import clubs from "./images/clubs.png";
 import spades from "./images/spades.png";
 import React, { useState } from "react";
 
-function Card({ className, onClick }) {
-  return <div className={`card ${className}`} onClick={onClick}></div>;
+function Card({ className, onClick, cardDetails }) {
+  if (!cardDetails || !cardDetails.cardSuit) {
+    return <div className={`card ${className}`} onClick={onClick}></div>;
+  }
+
+  let suitImage;
+
+  switch (cardDetails.cardSuit) {
+    case "spade":
+      suitImage = spades;
+      break;
+    case "heart":
+      suitImage = hearts;
+      break;
+    case "club":
+      suitImage = clubs;
+      break;
+    case "diamond":
+      suitImage = diamonds;
+      break;
+    default:
+      suitImage = "";
+      break;
+  }
+
+  return (
+    <div className={`card ${className}`} onClick={onClick}>
+      {cardDetails && (
+        <>
+          <span style={{ paddingLeft: "4px" }}>{cardDetails.cardName}</span>
+          <img src={suitImage} alt="suit" className="suit-image" />
+        </>
+      )}
+    </div>
+  );
 }
 
 function DeckCard({
@@ -17,6 +50,8 @@ function DeckCard({
   cardSuit,
   selectedCard,
   setSelectedCard,
+  usedDeckCards,
+  setUsedDeckCards,
 }) {
   let suitImage;
 
@@ -43,15 +78,25 @@ function DeckCard({
         selectedCard.type === "deck" && selectedCard.cardNumber === cardNumber
           ? "selected-card"
           : ""
-      }`}
-      onClick={() =>
+      } ${usedDeckCards.has(cardNumber) ? "used-deck-card" : ""}`}
+      onClick={() => {
         setSelectedCard({
           type: "deck",
           cardNumber: cardNumber,
           cardName: cardName,
           cardSuit: cardSuit,
-        })
-      }
+          cardDetails: {
+            cardName: cardName,
+            cardSuit: cardSuit,
+            cardNumber: cardNumber,
+          },
+        });
+        setUsedDeckCards((prevUsedDeckCards) => {
+          const newUsedDeckCards = new Set(prevUsedDeckCards);
+          newUsedDeckCards.add(cardNumber);
+          return newUsedDeckCards;
+        });
+      }}
     >
       <span style={{ paddingLeft: "4px" }}>{cardName}</span>
       <img src={suitImage} alt="suit" className="suit-image" />
@@ -59,7 +104,12 @@ function DeckCard({
   );
 }
 
-function Deck({ selectedCard, setSelectedCard }) {
+function Deck({
+  selectedCard,
+  setSelectedCard,
+  usedDeckCards,
+  setUsedDeckCards,
+}) {
   const cardSuits = ["spade", "heart", "club", "diamond"];
   const cardRanks = [
     "A",
@@ -91,6 +141,8 @@ function Deck({ selectedCard, setSelectedCard }) {
               cardSuit={suit}
               selectedCard={selectedCard}
               setSelectedCard={setSelectedCard}
+              usedDeckCards={usedDeckCards}
+              setUsedDeckCards={setUsedDeckCards}
             />
           );
         })}
@@ -152,13 +204,15 @@ function Player({
             }`}
             onClick={() => {
               if (isActive) {
-                setSelectedCard({
+                setSelectedCard((prevSelectedCard) => ({
                   type: "player",
                   playerIndex: playerNumber - 1,
                   cardIndex: index,
-                });
+                  cardDetails: prevSelectedCard.cardDetails,
+                }));
               }
             }}
+            cardDetails={selectedCard.cardDetails}
           />
         ))}
       </div>
@@ -166,16 +220,71 @@ function Player({
   );
 }
 
-function CommunityCard({ index, selectedCard, setSelectedCard }) {
+function CommunityCard({ index, selectedCard, setSelectedCard, cardDetails }) {
+  if (!selectedCard || !selectedCard.cardDetails) {
+    return (
+      <div
+        className={`community-card ${
+          selectedCard?.type === "community" && selectedCard?.index === index
+            ? "selected-card"
+            : ""
+        }`}
+      />
+    );
+  }
+
+  let suitImage;
+
+  switch (cardDetails.cardSuit) {
+    case "spade":
+      suitImage = spades;
+      break;
+    case "heart":
+      suitImage = hearts;
+      break;
+    case "club":
+      suitImage = clubs;
+      break;
+    case "diamond":
+      suitImage = diamonds;
+      break;
+    default:
+      suitImage = "";
+      break;
+  }
+
   return (
     <div
       className={`community-card ${
-        selectedCard.type === "community" && selectedCard.index === index
+        selectedCard?.type === "community" && selectedCard?.index === index
           ? "selected-card"
           : ""
       }`}
-      onClick={() => setSelectedCard({ type: "community", index: index })}
-    />
+      onClick={() =>
+        setSelectedCard((prevSelectedCard) => ({
+          type: "community",
+          index: index,
+          cardDetails: prevSelectedCard?.cardDetails,
+        }))
+      }
+    >
+      <span style={{ paddingLeft: "6px" }}>
+        {selectedCard.cardDetails.cardName}
+      </span>
+      <img
+        src={suitImage}
+        alt="suit"
+        className="community-suit-image"
+      />
+    </div>
+  );
+}
+
+function ResetButton({ reset }) {
+  return (
+    <button onClick={reset} className="reset-button">
+      Reset Deck
+    </button>
   );
 }
 
@@ -184,7 +293,18 @@ function PokerGame({ numCards, numPlayers }) {
     type: null,
     playerIndex: null,
     cardIndex: null,
+    cardDetails: null,
   });
+  const [usedDeckCards, setUsedDeckCards] = useState(new Set());
+
+  const reset = () => {
+    setSelectedCard({
+      type: null,
+      playerIndex: null,
+      cardIndex: null,
+    });
+    setUsedDeckCards(new Set());
+  };
 
   const communityCards = [
     <div key={0} className="community-cards-group">
@@ -194,6 +314,7 @@ function PokerGame({ numCards, numPlayers }) {
           index={index}
           selectedCard={selectedCard}
           setSelectedCard={setSelectedCard}
+          cardDetails={selectedCard.cardDetails}
         />
       ))}
     </div>,
@@ -203,6 +324,7 @@ function PokerGame({ numCards, numPlayers }) {
         index={3}
         selectedCard={selectedCard}
         setSelectedCard={setSelectedCard}
+        cardDetails={selectedCard.cardDetails}
       />
     </div>,
     <div key={2} className="community-cards-group">
@@ -211,6 +333,7 @@ function PokerGame({ numCards, numPlayers }) {
         index={4}
         selectedCard={selectedCard}
         setSelectedCard={setSelectedCard}
+        cardDetails={selectedCard.cardDetails}
       />
     </div>,
   ];
@@ -232,13 +355,19 @@ function PokerGame({ numCards, numPlayers }) {
     <div className="App">
       <div className="table-wrapper">
         <NavBar />
+        <ResetButton calssName="reset-button" reset={reset} />
         <div className="poker-table">
           {players}
           <div className="community-cards">
             <div className="community-cards-group">{communityCards}</div>
           </div>
         </div>
-        <Deck selectedCard={selectedCard} setSelectedCard={setSelectedCard} />
+        <Deck
+          selectedCard={selectedCard}
+          setSelectedCard={setSelectedCard}
+          usedDeckCards={usedDeckCards}
+          setUsedDeckCards={setUsedDeckCards}
+        />
       </div>
     </div>
   );
