@@ -57,7 +57,7 @@ function DeckCard({
   usedDeckCards,
   setUsedDeckCards,
   communityCards,
-  setPlayerCards,
+  setCommunityCards,
   playerCards,
 }) {
   let suitImage;
@@ -89,19 +89,25 @@ function DeckCard({
       onClick={() => {
         if (selectedCard.type === "player") {
           const newPlayerCards = [...playerCards];
+          const replacedCard =
+            newPlayerCards[selectedCard.playerIndex][selectedCard.cardIndex];
           newPlayerCards[selectedCard.playerIndex][selectedCard.cardIndex] = {
             cardNumber: cardNumber,
             cardName: cardName,
             cardSuit: cardSuit,
           };
-          setSelectedCard({});
           setUsedDeckCards((prevUsedDeckCards) => {
             const newUsedDeckCards = new Set(prevUsedDeckCards);
+            if (replacedCard) {
+              newUsedDeckCards.delete(replacedCard.cardNumber);
+            }
             newUsedDeckCards.add(cardNumber);
             return newUsedDeckCards;
           });
+          setSelectedCard({});
         } else if (selectedCard.type === "community") {
           const newCommunityCards = [...communityCards];
+          const replacedCard = newCommunityCards[selectedCard.cardIndex];
           newCommunityCards[selectedCard.cardIndex] = {
             cardNumber: cardNumber,
             cardName: cardName,
@@ -110,9 +116,13 @@ function DeckCard({
           setSelectedCard({});
           setUsedDeckCards((prevUsedDeckCards) => {
             const newUsedDeckCards = new Set(prevUsedDeckCards);
+            if (replacedCard) {
+              newUsedDeckCards.delete(replacedCard.cardNumber);
+            }
             newUsedDeckCards.add(cardNumber);
             return newUsedDeckCards;
           });
+          setCommunityCards(newCommunityCards);
         }
       }}
     >
@@ -130,6 +140,7 @@ function Deck({
   communityCards,
   playerCards,
   setPlayerCards,
+  setCommunityCards,
 }) {
   const cardSuits = ["spade", "heart", "club", "diamond"];
   const cardRanks = [
@@ -165,8 +176,9 @@ function Deck({
               usedDeckCards={usedDeckCards}
               setUsedDeckCards={setUsedDeckCards}
               communityCards={communityCards}
-              playerCards={playerCards} // pass the playerCards to DeckCard
-              setPlayerCards={setPlayerCards} // pass the setPlayerCards to DeckCard
+              playerCards={playerCards}
+              setPlayerCards={setPlayerCards}
+              setCommunityCards={setCommunityCards}
             />
           );
         })}
@@ -255,10 +267,17 @@ function CommunityCard({
     return (
       <div
         className={`community-card ${
-          selectedCard?.type === "community" && selectedCard?.index === index
+          selectedCard?.type === "community" &&
+          selectedCard?.cardIndex === index
             ? "selected-card"
             : ""
         }`}
+        onClick={() => {
+          setSelectedCard({
+            type: "community",
+            cardIndex: index,
+          });
+        }}
       />
     );
   }
@@ -281,6 +300,7 @@ function CommunityCard({
           cardDetails: cardDetails,
         });
       }}
+      style={{ background: "white" }}
     >
       <span style={{ paddingLeft: "6px" }}>
         {cardDetails ? cardDetails.cardName : ""}
@@ -337,6 +357,7 @@ function PokerGame({ numCards, numPlayers }) {
     setPlayerCards(
       Array.from({ length: numPlayers }, () => Array(numCards).fill(null))
     );
+    setCommunityCards(Array(5).fill(null));
   };
 
   const communityCardElements = [
@@ -406,7 +427,8 @@ function PokerGame({ numCards, numPlayers }) {
           setUsedDeckCards={setUsedDeckCards}
           communityCards={communityCards}
           playerCards={playerCards}
-          setPlayerCards={setPlayerCards} // pass the setPlayerCards to Deck
+          setPlayerCards={setPlayerCards}
+          setCommunityCards={setCommunityCards}
         />
       </div>
     </div>
