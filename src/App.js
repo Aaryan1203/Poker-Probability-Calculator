@@ -6,6 +6,7 @@ import diamonds from "./images/diamonds.png";
 import clubs from "./images/clubs.png";
 import spades from "./images/spades.png";
 import React, { useState } from "react";
+import calculateProbabilities from "./ProbabilityCalculator";
 
 function Card({ className, onClick, cardDetails }) {
   if (!cardDetails || !cardDetails.cardSuit) {
@@ -56,6 +57,7 @@ function DeckCard({
   setSelectedCard,
   usedDeckCards,
   setUsedDeckCards,
+  setPlayerCards,
   communityCards,
   setCommunityCards,
   playerCards,
@@ -87,6 +89,9 @@ function DeckCard({
           : ""
       } ${usedDeckCards.has(cardNumber) ? "used-deck-card" : ""}`}
       onClick={() => {
+        if (usedDeckCards.has(cardNumber)) {
+          return;
+        }
         if (selectedCard.type === "player") {
           const newPlayerCards = [...playerCards];
           const replacedCard =
@@ -96,6 +101,8 @@ function DeckCard({
             cardName: cardName,
             cardSuit: cardSuit,
           };
+          setPlayerCards(newPlayerCards); // This line updates the playerCards state
+
           setUsedDeckCards((prevUsedDeckCards) => {
             const newUsedDeckCards = new Set(prevUsedDeckCards);
             if (replacedCard) {
@@ -196,6 +203,7 @@ function Player({
   selectedCard,
   setSelectedCard,
   playerCards,
+  probability,
 }) {
   const [isActive, setIsActive] = useState(playerNumber <= 2);
   const cards = playerCards[playerNumber - 1];
@@ -252,6 +260,10 @@ function Player({
             cardDetails={cards[index]}
           />
         ))}
+      </div>
+      <div className="probability">
+        <div>Win: {(probability.win || 0).toFixed(2)}%</div>
+        <div>Tie: {(probability.tie || 0).toFixed(2)}%</div>
       </div>
     </div>
   );
@@ -346,6 +358,20 @@ function PokerGame({ numCards, numPlayers }) {
     Array.from({ length: numPlayers }, () => Array(numCards).fill(null))
   );
 
+  function hasCompleteCards(cards) {
+    return cards.every((card) => card !== null);
+  }
+
+  const completePlayerCards = playerCards.filter(hasCompleteCards);
+
+  console.log("p" + completePlayerCards);
+  console.log("c" + communityCards);
+
+  const probabilities = calculateProbabilities(
+    completePlayerCards,
+    communityCards
+  );
+
   const reset = () => {
     setSelectedCard({
       type: null,
@@ -406,6 +432,7 @@ function PokerGame({ numCards, numPlayers }) {
         selectedCard={selectedCard}
         setSelectedCard={setSelectedCard}
         playerCards={playerCards}
+        probability={probabilities[index] || {}}
       />
     ));
 
