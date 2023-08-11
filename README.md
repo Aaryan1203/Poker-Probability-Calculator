@@ -4,11 +4,11 @@ A comprehensive, web-based poker probability calculator designed for various pok
 
 ## Features
 
-**Variety of Poker Games**: Calculate odds for popular variants like Texas Hold'em and Omaha.
-**Interactive UI**: Responsive interface developed with React to allow users to select, swap, and analyze cards.
-**Real-time Advice Chatbot**: An in-app chatbot provides strategic advice using OpenAI's GPT-3.5 Turbo.
-**Accurate Probabilities**: Utilizes the Poker Odds Machine for precise statistical feedback.
-**User-friendly Functionalities**: Includes features like deck reset, intuitive visual indicators for card selection, and more.
+- **Variety of Poker Games**: Calculate odds for popular variants like Texas Hold'em and Omaha.
+- **Interactive UI**: Responsive interface developed with React to allow users to select, swap, and analyze cards.
+- **Real-time Advice Chatbot**: An in-app chatbot provides strategic advice using OpenAI's GPT-3.5 Turbo.
+- **Accurate Probabilities**: Utilizes the Poker Odds Machine for precise statistical feedback.
+- **User-friendly Functionalities**: Includes features like deck reset, intuitive visual indicators for card selection, and more.
 
 ## Technologies Used
 
