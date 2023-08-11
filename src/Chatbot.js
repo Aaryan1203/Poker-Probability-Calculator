@@ -56,7 +56,7 @@ function Chatbot({ playerCards, communityCards }) {
 
   const transformedCommunityCards = communityCards
     .map((card) => transformCard(card))
-    .join(" ");
+    .join(", ");
 
   const handleInputChange = (e) => {
     setUserInput(e.target.value);
@@ -80,7 +80,11 @@ function Chatbot({ playerCards, communityCards }) {
 
   return (
     <div className="chat-bot">
-      <div>Poker AI</div>
+      <div className="poker-ai">Poker AI</div>
+      <div className="note">
+        Note: The AI only take into consideration your cards and the community
+        cards to give you personalized advice
+      </div>
       <div className="output">{output}</div>
       <div className="input-container">
         <textarea

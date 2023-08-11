@@ -227,7 +227,7 @@ function Player({
   return (
     <div className={`player ${playerClass}`}>
       <div className="player-button">
-        <h2>Player {playerNumber}</h2>
+        <h2>{playerNumber === 1 ? "My cards" : `Player ${playerNumber}`}</h2>
         {playerNumber !== 1 && playerNumber !== 2 && (
           <button
             onClick={() => setIsActive(!isActive)}
