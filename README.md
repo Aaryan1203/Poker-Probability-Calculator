@@ -1,10 +1,17 @@
-# Getting Started with Create React App
+# Poker Probability Calculator 🃏
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A comprehensive, web-based poker probability calculator designed for various poker games, equipped with an interactive chatbot powered by OpenAI's GPT-3.5 Turbo for real-time strategic advice.
 
-## Available Scripts
 
-In the project directory, you can run:
+## Table of Contents
+
+Features
+Technologies Used
+Setup and Installation
+Usage
+Contributing
+License
+Acknowledgements
 
 ### `npm start`
 
