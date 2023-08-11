@@ -13,7 +13,7 @@ async function getData({ prompt, playerCards, communityCards }) {
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer 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`,
+          Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
