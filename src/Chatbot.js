@@ -1,36 +1,82 @@
 import React, { useState } from "react";
 
+async function getData({ prompt, playerCards, communityCards }) {
+  var systemRole =
+    "You are a poker master training a beginner." +
+    "The user is going to provide you with the cards that they have," +
+    "as well as the community cards (if they exist). Your job is to give as best" +
+    "advice as you can on what the player should do regarding betting, folding, or bluffing." +
+    "Make sure to respond in only 3-4 sentances";
+  try {
+    const gptResponse = await fetch(
+      "https://api.openai.com/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer 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`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "gpt-3.5-turbo",
+          messages: [
+            {
+              role: "system",
+              content: systemRole,
+            },
+            {
+              role: "user",
+              content: `Player cards: ${playerCards}. Community cards: ${communityCards}. ${prompt}`,
+            },
+          ],
+        }),
+      }
+    );
+    const response = await gptResponse.json();
+    console.log(response);
+    console.log(
+      `input: Player cards: ${playerCards}. Community cards: ${communityCards}. ${prompt}`
+    );
+    return response["choices"][0]["message"]["content"];
+  } catch (error) {
+    throw error;
+  }
+}
+
 function Chatbot({ playerCards, communityCards }) {
   const [userInput, setUserInput] = useState("");
+  const [output, setOutput] = useState("");
 
-  const transformedPlayerCards = playerCards
-    .map((playerHand, index) => {
-      return `Player ${index + 1}: ${playerHand
-        .map((card) => transformCard(card))
-        .join(", ")}`;
-    })
+  const player1Cards = playerCards[0]
+    .map((card) => transformCard(card))
     .join(", ");
 
   const transformedCommunityCards = communityCards
     .map((card) => transformCard(card))
     .join(" ");
 
-    const handleInputChange = (e) => {
-      setUserInput(e.target.value);
-      
-      e.target.style.height = 'auto';
-      
-      e.target.style.height = `${e.target.scrollHeight}px`;
+  const handleInputChange = (e) => {
+    setUserInput(e.target.value);
+    e.target.style.height = "auto";
+    e.target.style.height = `${e.target.scrollHeight}px`;
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log("User's question:", userInput);
+    try {
+      const response = await getData({
+        prompt: userInput,
+        playerCards: player1Cards,
+        communityCards: transformedCommunityCards,
+      });
+      setOutput(response);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   return (
     <div className="chat-bot">
-      <div>
-        Poker AI
-      </div>
+      <div>Poker AI</div>
+      <div className="output">{output}</div>
       <div className="input-container">
         <textarea
           type="text"
@@ -39,7 +85,9 @@ function Chatbot({ playerCards, communityCards }) {
           placeholder="Type your question here..."
           className="input-button"
         />
-        <button onClick={handleSubmit} className="submit-button">Submit</button>
+        <button onClick={handleSubmit} className="submit-button">
+          Submit
+        </button>
       </div>
     </div>
   );
