@@ -46,9 +46,13 @@ function Chatbot({ playerCards, communityCards }) {
   const [userInput, setUserInput] = useState("");
   const [output, setOutput] = useState("");
 
-  const player1Cards = playerCards[0]
-    .map((card) => transformCard(card))
-    .join(", ");
+  const player1Cards =
+    playerCards && playerCards[0] && playerCards[0].length > 0
+      ? playerCards[0]
+          .map((card) => transformCard(card))
+          .filter(Boolean)
+          .join(", ")
+      : "";
 
   const transformedCommunityCards = communityCards
     .map((card) => transformCard(card))
@@ -71,6 +75,7 @@ function Chatbot({ playerCards, communityCards }) {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+    setUserInput("");
   };
 
   return (
