@@ -7,6 +7,7 @@ import clubs from "./images/clubs.png";
 import spades from "./images/spades.png";
 import React, { useState } from "react";
 import calculateProbabilities from "./ProbabilityCalculator";
+import Chatbot from "./Chatbot";
 
 function Card({ className, onClick, cardDetails }) {
   if (!cardDetails || !cardDetails.cardSuit) {
@@ -275,6 +276,13 @@ function CommunityCard({
   setSelectedCard,
   communityCards,
 }) {
+  const isPreviousCardFilled = (i) => {
+    for (let j = 0; j < i; j++) {
+      if (!communityCards[j]) return false;
+    }
+    return true;
+  };
+
   if (!communityCards[index]) {
     return (
       <div
@@ -285,10 +293,12 @@ function CommunityCard({
             : ""
         }`}
         onClick={() => {
-          setSelectedCard({
-            type: "community",
-            cardIndex: index,
-          });
+          if (isPreviousCardFilled(index)) {
+            setSelectedCard({
+              type: "community",
+              cardIndex: index,
+            });
+          }
         }}
       />
     );
@@ -347,9 +357,9 @@ function ResetButton({ reset }) {
 
 function PokerGame({ numCards, numPlayers }) {
   const [selectedCard, setSelectedCard] = useState({
-    type: null,
-    playerIndex: null,
-    cardIndex: null,
+    type: "player",
+    playerIndex: 0,
+    cardIndex: 0,
     cardDetails: null,
   });
   const [usedDeckCards, setUsedDeckCards] = useState(new Set());
@@ -438,25 +448,60 @@ function PokerGame({ numCards, numPlayers }) {
 
   return (
     <div className="App">
-      <div className="table-wrapper">
-        <NavBar />
-        <ResetButton calssName="reset-button" reset={reset} />
-        <div className="poker-table">
-          {players}
-          <div className="community-cards">
-            <div className="community-cards-group">{communityCardElements}</div>
+      <div className="title">Poker Probability Calculator</div>
+      <div className="table-and-chat">
+        <div className="table-wrapper">
+          <NavBar />
+          <ResetButton calssName="reset-button" reset={reset} />
+          <div className="poker-table">
+            {players}
+            <div className="community-cards">
+              <div className="community-cards-group">
+                {communityCardElements}
+              </div>
+            </div>
+          </div>
+          <Deck
+            selectedCard={selectedCard}
+            setSelectedCard={setSelectedCard}
+            usedDeckCards={usedDeckCards}
+            setUsedDeckCards={setUsedDeckCards}
+            communityCards={communityCards}
+            playerCards={playerCards}
+            setPlayerCards={setPlayerCards}
+            setCommunityCards={setCommunityCards}
+          />
+          <Chatbot
+            playerCards={completePlayerCards}
+            communityCards={communityCards}
+          />
+        </div>
+      </div>
+      <div className="descriptions-box">
+        <div className="descriptions-content">
+          <div className="description-title">
+            Educational Tool for Beginners
+          </div>
+          <div>
+            New to poker? Learn the ropes with our intuitive odds calculator,
+            providing real-time insights into the game's intricacies
           </div>
         </div>
-        <Deck
-          selectedCard={selectedCard}
-          setSelectedCard={setSelectedCard}
-          usedDeckCards={usedDeckCards}
-          setUsedDeckCards={setUsedDeckCards}
-          communityCards={communityCards}
-          playerCards={playerCards}
-          setPlayerCards={setPlayerCards}
-          setCommunityCards={setCommunityCards}
-        />
+        <div className="descriptions-content">
+          <div className="description-title">Real-time Competitive Edge</div>
+          <div>
+            In the heat of the game, gain an instant edge over your opponents.
+            Get insights into your chances and make informed decisions on the
+            fly
+          </div>
+        </div>
+        <div className="descriptions-content">
+          <div className="description-title">Virtual Poker Assistant</div>
+          <div>
+            Navigating a complex hand? Our integrated chatbot, offers tailored
+            advice for your specific situation and quick poker tips.
+          </div>
+        </div>
       </div>
     </div>
   );

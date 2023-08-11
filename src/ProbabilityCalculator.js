@@ -21,9 +21,7 @@ const calculateProbabilities = (playerCards, communityCards) => {
     .join(",")
     .trim()
     .replace(/,+$/, "");
-  console.log("Player Cards:", transformedPlayerCards);
-  console.log("Community Cards name:", transformedCommunityCards);
-
+    
   const input = {
     hands: transformedPlayerCards,
     numPlayers: playerCards.length,
