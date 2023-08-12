@@ -28,7 +28,7 @@ Poker Odds Machine
 4. Run the Application
 - `npm start`
 
-Visit http://localhost:3000 in your browser to use the application.
+Visit http://localhost:3000/texas-holdem in your browser to use the application.
 
 ## Usage
 
