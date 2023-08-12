@@ -1,6 +1,6 @@
 .App {
   align-items: center;
-
+  background-image: url("./images/pokerwallpaper.png");
   background-repeat: repeat;
   display: flex;
   flex-direction: column;
