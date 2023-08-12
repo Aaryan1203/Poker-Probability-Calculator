@@ -32,10 +32,6 @@ async function getData({ prompt, playerCards, communityCards }) {
       }
     );
     const response = await gptResponse.json();
-    console.log(response);
-    console.log(
-      `input: Player cards: ${playerCards}. Community cards: ${communityCards}. ${prompt}`
-    );
     return response["choices"][0]["message"]["content"];
   } catch (error) {
     throw error;
@@ -64,7 +60,6 @@ function Chatbot({ playerCards, communityCards }) {
     e.target.style.height = `${e.target.scrollHeight}px`;
   };
   const handleSubmit = async () => {
-    console.log("User's question:", userInput);
     try {
       const response = await getData({
         prompt: userInput,
