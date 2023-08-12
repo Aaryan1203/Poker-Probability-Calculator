@@ -102,7 +102,7 @@ function DeckCard({
             cardName: cardName,
             cardSuit: cardSuit,
           };
-          setPlayerCards(newPlayerCards); // This line updates the playerCards state
+          setPlayerCards(newPlayerCards);
 
           setUsedDeckCards((prevUsedDeckCards) => {
             const newUsedDeckCards = new Set(prevUsedDeckCards);

@@ -1,10 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 function NavBar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState(location.pathname.slice(1));
+
+  useEffect(() => {
+    if (
+      location.pathname !== "/texas-holdem" &&
+      location.pathname !== "/omaha" &&
+      location.pathname !== "/five-card-omaha"
+    ) {
+      navigate("/texas-holdem");
+    }
+  }, [location.pathname, navigate]);
 
   return (
     <nav className="nav-bar">
