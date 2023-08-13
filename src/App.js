@@ -449,18 +449,16 @@ function PokerGame({ numCards, numPlayers }) {
   return (
     <div className="App">
       <div className="title">Poker Probability Calculator</div>
-      <div className="table-and-chat">
-        <div className="table-wrapper">
-          <NavBar />
-          <ResetButton calssName="reset-button" reset={reset} />
-          <div className="poker-table">
-            {players}
-            <div className="community-cards">
-              <div className="community-cards-group">
-                {communityCardElements}
-              </div>
-            </div>
+      <div className="table-wrapper">
+        <NavBar />
+        <div className="poker-table">
+          {players}
+          <div className="community-cards">
+            <div className="community-cards-group">{communityCardElements}</div>
           </div>
+        </div>
+        <div className="below-table-content">
+          <ResetButton calssName="reset-button" reset={reset} />
           <Deck
             selectedCard={selectedCard}
             setSelectedCard={setSelectedCard}
