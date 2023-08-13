@@ -452,10 +452,10 @@ function PokerGame({ numCards, numPlayers }) {
       <div className="table-wrapper">
         <NavBar />
         <div className="poker-table">
-          {players}
-          <div className="community-cards">
+        <div className="community-cards">
             <div className="community-cards-group">{communityCardElements}</div>
           </div>
+          {players}
         </div>
         <div className="below-table-content">
           <ResetButton calssName="reset-button" reset={reset} />
