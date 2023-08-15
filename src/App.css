@@ -510,12 +510,23 @@ body {
   height: 100%;
   background-image: url("./images/pokerwallpaper.png");
   color: white;
-  font-size: 1.5em;
+  font-size: 2em;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: top;
   z-index: 9999;
-  text-align: center;
+
+  flex-direction: column;
+}
+
+.logo {
+  width: 40%;
+  padding-top: 10%;
+  padding-bottom: 5%;
+}
+
+.warning-text {
+  width: 80%;
 }
 
 .mobile-warning {
