@@ -513,16 +513,14 @@ body {
   font-size: 2em;
   display: flex;
   align-items: center;
-  justify-content: top;
+  justify-content: center;
   z-index: 9999;
-
   flex-direction: column;
 }
 
 .logo {
   width: 40%;
-  padding-top: 10%;
-  padding-bottom: 5%;
+  display: flex;
 }
 
 .warning-text {
