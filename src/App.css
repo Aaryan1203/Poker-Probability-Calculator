@@ -19,9 +19,6 @@ body {
   padding: 5vh;
   font-size: 3em;
   font-weight: bold;
-  @media (max-width: 740px) {
-    font-size: 2em;
-  }
 }
 
 .table-wrapper {
@@ -33,15 +30,20 @@ body {
   height: 180vh;
   width: 85%;
   justify-content: space-between;
-  @media (max-width: 740px) {
-    height: 120vh;
+  @media (max-width: 1100px) {
+    height: 140vh;
+  }
+  @media (max-height: 740px) {
+    height: 200vh;
+  }
+  @media (max-height: 700px) {
+    height: 230vh;
   }
 }
 
 .nav-bar {
   display: flex;
   margin-top: 4%;
-  
 }
 
 .nav-link {
@@ -53,15 +55,6 @@ body {
   padding: 20px;
   text-decoration: none;
   transition: background-color 0.3s ease;
-  @media (max-width: 740px) {
-    padding: 10px;
-    width: 80px;
-    font-size: 0.8em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
 }
 
 .nav-link:hover {
@@ -98,16 +91,11 @@ body {
   z-index: 1;
   align-items: center;
   margin-top: 10%;
-  margin-right: 10%;
-  @media (max-width: 740px) {
+  margin-right: 15%;
+  @media (max-width: 1100px) {
     font-size: 1em;
-    margin-right: 25%;
-    margin-top: 15%;
-  }
-  @media (max-width: 640px) {
-    font-size: 1em;
-    margin-right: 25%;
-    margin-top: 15%;
+    margin-right: 20%;
+    margin-bottom: 5%;
   }
 }
 
@@ -127,13 +115,9 @@ body {
   margin: 2%;
   width: 8vh;
   transition: box-shadow 0.2s ease;
-  @media (max-width: 740px) {
+  @media (max-width: 1100px) {
     height: 8vh;
     width: 6vh;
-  }
-  @media (max-width: 640px) {
-    height: 7vh;
-    width: 5vh;
   }
 }
 
@@ -159,8 +143,8 @@ body {
   border: 4px solid #c28502;
   border-radius: 10px;
   transition: background-color 0.3s ease;
-  @media (max-width: 740px) {
-    font-size: 0.5em;
+  @media (max-width: 1100px) {
+    font-size: 0.7em;
     border: 3px solid #c28502;
   }
 }
@@ -194,9 +178,10 @@ body {
   width: 13%;
   font-size: 1.3em;
   transition: box-shadow 0.2s ease;
-  @media (max-width: 740px) {
-    font-size: 0.5em;
+  @media (max-width: 1100px) {
+    font-size: 0.8em;
     margin: 1.5%;
+    height: 25%;
   }
 }
 
@@ -215,9 +200,6 @@ body {
   border-radius: 10px;
   width: 20%;
   background-color: #800000;
-  @media (max-width: 740px) {
-    font-size: 0.5em;
-  }
 }
 
 .chat-bot {
@@ -233,11 +215,6 @@ body {
   border-radius: 10px;
   margin-top: 2%;
   padding-top: 2%;
-  @media (max-width: 740px) {
-    font-size: 1em;
-    padding-bottom: 0.5%;
-    margin-bottom: 1%;
-  }
 }
 
 .note {
@@ -245,8 +222,8 @@ body {
   width: 80%;
   text-align: center;
   padding-top: 1%;
-  @media (max-width: 740px) {
-    font-size: 0.3em;
+  @media (max-width: 1100px) {
+    font-size: 0.5em;
   }
 }
 
@@ -264,8 +241,8 @@ body {
   text-align: center;
   margin-top: 2%;
   margin-left: 1%;
-  @media (max-width: 740px) {
-    font-size: 0.4em;
+  @media (max-width: 1100px) {
+    font-size: 0.5em;
   }
 }
 
@@ -315,12 +292,6 @@ body {
   font-weight: bold;
   margin-bottom: 1.5%;
   margin-right: 1%;
-  @media (max-width: 740px) {
-    font-size: 0.1em;
-    width: 10%;
-    height: 20%;
-    padding-right: 10%;
-  }
 }
 
 .submit-button:hover {
@@ -339,8 +310,8 @@ body {
   padding: 5%;
   font-size: 1.7em;
   flex-direction: row;
-  @media (max-width: 740px) {
-    font-size: 0.8em;
+  @media (max-width: 1100px) {
+    font-size: 1.3em;
   }
 }
 
@@ -374,6 +345,9 @@ body {
   color: black;
   font-size: 2em;
   transition: box-shadow 0.2s ease;
+  @media (max-width: 1100px) {
+    height: 5vh;
+  }
 }
 
 .cards {
@@ -418,6 +392,11 @@ body {
   flex-direction: column;
   font-size: 0.6em;
   text-shadow: 5px 5px 10px #c28502;
+  width: 1000px;
+  @media (max-width: 1100px) {
+    font-size: 0.4em;
+    padding-bottom: 5%;
+  }
 }
 
 .player-button {
@@ -439,29 +418,29 @@ body {
   font-size: 1.5em;
 }
 
-.player-6:nth-child(1) {
-  transform: translate(120%, 180%) translate(400px);
-  width: 11%;
+.player-6:nth-child(7) {
+  transform: translate(220%, -580%);
+  width: 23%;
 }
 .player-6:nth-child(2) {
-  transform: translate(-200%, 80%) translate(400px);
-  width: 11%;
+  transform: translate(100%, 40%);
+  width: 23%;
 }
 .player-6:nth-child(3) {
-  transform: translate(-100%, -140%) translate(400px);
-  width: 11%;
+  transform: translate(-100%, -60%);
+  width: 23%;
 }
 .player-6:nth-child(4) {
-  transform: translate(-150%, -370%) translate(400px);
-  width: 11%;
+  transform: translate(-220%, -275%);
+  width: 23%;
 }
 .player-6:nth-child(5) {
-  transform: translate(60%, -470%) translate(400px);
-  width: 11%;
+  transform: translate(-100%, -490%);
+  width: 23%;
 }
 .player-6:nth-child(6) {
-  transform: translate(0%, -440%) translate(400px);
-  width: 11%;
+  transform: translate(100%, -590%);
+  width: 23%;
 }
 
 .player-8:nth-child(9) {
@@ -496,4 +475,68 @@ body {
 .player-8:nth-child(8) {
   transform: translate(420%, -735%);
   width: 11%;
+}
+
+.five-card.player-6:nth-child(7) {
+  transform: translate(190%, -580%);
+  width: 28%;
+}
+.five-card.player-6:nth-child(2) {
+  transform: translate(90%, 40%);
+  width: 28%;
+}
+.five-card.player-6:nth-child(3) {
+  transform: translate(-90%, -60%);
+  width: 28%;
+}
+.five-card.player-6:nth-child(4) {
+  transform: translate(-190%, -275%);
+  width: 28%;
+}
+.five-card.player-6:nth-child(5) {
+  transform: translate(-90%, -490%);
+  width: 28%;
+}
+.five-card.player-6:nth-child(6) {
+  transform: translate(90%, -590%);
+  width: 28%;
+}
+
+.mobile-warning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("./images/pokerwallpaper.png");
+  color: white;
+  font-size: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.mobile-warning {
+  display: none;
+}
+
+@media (max-width: 840px) {
+  .mobile-warning {
+    display: flex;
+  }
+
+  body > *:not(.mobile-warning) {
+    display: none;
+  }
+}
+
+@media (max-height: 600px) {
+  .mobile-warning {
+    display: flex;
+  }
+
+  body > *:not(.mobile-warning) {
+    display: none;
+  }
 }

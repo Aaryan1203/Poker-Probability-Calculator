@@ -212,16 +212,16 @@ function Player({
   const addPlayerButton = isActive ? "-" : "+";
   const activeCardClass = isActive ? "active-card" : "non-active-card";
 
-  let playerClass = "";
+  let playerClass = numCards === 5 ? "five-card" : "";
   switch (numPlayers) {
     case 6:
-      playerClass = "player-6";
+      playerClass += " player-6";
       break;
     case 8:
-      playerClass = "player-8";
+      playerClass += " player-8";
       break;
     default:
-      playerClass = "player-default";
+      playerClass += " player-default";
   }
 
   return (
@@ -452,7 +452,7 @@ function PokerGame({ numCards, numPlayers }) {
       <div className="table-wrapper">
         <NavBar />
         <div className="poker-table">
-        <div className="community-cards">
+          <div className="community-cards">
             <div className="community-cards-group">{communityCardElements}</div>
           </div>
           {players}
