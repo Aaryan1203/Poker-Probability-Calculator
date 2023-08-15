@@ -513,13 +513,13 @@ body {
   font-size: 2em;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: top;
   z-index: 9999;
   flex-direction: column;
 }
 
 .logo {
-  width: 40%;
+  width: 60%;
   display: flex;
 }
 
