@@ -448,7 +448,7 @@ function PokerGame({ numCards, numPlayers }) {
 
   return (
     <div className="App">
-      <div className="title">Poker Probability Calculato</div>
+      <div className="title">Poker Probability Calculator</div>
       <div className="table-wrapper">
         <NavBar />
         <div className="poker-table">
